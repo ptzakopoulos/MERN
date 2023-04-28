@@ -1,0 +1,10 @@
+.shop-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  background-color: rgb(27, 27, 27);
+  padding: 150px;
+}

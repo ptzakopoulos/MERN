@@ -1,39 +1,65 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Test from "./components/testComponent";
+
+//Local Modules
+import Navigation from "./components/global/navigation";
+import Shop from "./components/shop/shop";
 
 function App() {
-  const [backEndData, setBackEndData] = useState([{}]);
+  const [users, setUsers] = useState([{}]);
+  const [orders, setOrders] = useState([{}]);
+  const [products, setProducts] = useState([{}]);
+
+  // useEffect(() => {
+  //   //Fetching Users from Schema
+  //   fetch("/api/users")
+  //     .then((response) => response.json())
+  //     .then((data) => setUsers(data))
+  //     .catch((err) => console.error(err));
+  //   //Fetching ORders from Schema
+  //   fetch("/api/orders")
+  //     .then((response) => response.json())
+  //     .then((data) => setOrders(data))
+  //     .catch((err) => console.error(err));
+  //   //Fetching Products from Schema
+  //   fetch("/api/products")
+  //     .then((response) => response.json())
+  //     .then((data) => setProducts(data))
+  //     .catch((err) => console.error(err));
+  // }, []);
 
   useEffect(() => {
-    fetch("/api")
+    //Fetching Users from Schema
+    fetch("/api/users")
       .then((response) => response.json())
-      .then((data) => {
-        setBackEndData(data);
-        console.log(data);
-        console.log(backEndData);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      .then((data) => setUsers(data))
+      .catch((err) => console.error(err));
+    //Fetching ORders from Schema
+    fetch("/api/orders")
+      .then((response) => response.json())
+      .then((data) => setOrders(data))
+      .catch((err) => console.error(err));
+    //Fetching Products from Schema
+    fetch("/api/products")
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error(err));
   }, []);
-
-  const testArray = [];
-  const names = ["Panos", "Giannis", "Xristos", "Aleksandros"];
-  for (let i = 0; i < 4; i++) {
-    testArray[i] = <Test name={names[i]} />;
-  }
 
   return (
     <div>
-      {typeof backEndData.users === "undefined" ? (
-        <p>Loading...</p>
+      <Navigation />
+      <Shop products={products} />
+      <form method="POST" action="/test">
+        <button type="submit">Submit</button>
+      </form>
+      <h1>{users[0].name}</h1>
+      <h1>{products[0].title}</h1>
+      {orders.length > 0 ? (
+        orders.map((order, index) => console.log(orders))
       ) : (
-        backEndData.users.map((user, i) => <p key={i}>{user}</p>)
+        <h1>No Orders Found</h1>
       )}
-      {names.length > 0
-        ? names.map((e, index) => <Test key={index} name={e} />)
-        : console.log("sks")}
     </div>
   );
 }
